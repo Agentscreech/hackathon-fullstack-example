@@ -8,8 +8,10 @@ var level = 0;
 var targetValue = 100;
 var score = 0;
 var timeLimit = 60;
-var scoreboard = document.getElementById("score");
-var info = document.getElementById("info");
+var scoreboard = $("#score");
+var info = $("#info");
+var interval = setInterval(timer, 1000);
+$('#continue').hide();
 
 
 function drawTarget() {
@@ -18,7 +20,7 @@ function drawTarget() {
     randomY = Math.floor(Math.random() * 500);
     targetRange = targetSizes[level] / 2;
     var img = new Image();
-    img.src = "target.svg";
+    img.src = "static/img/target.svg"; //might have to change this later
     if (randomX + (targetSizes[level] + 10) > canvas.width) {
         // console.log(randomX + " is too big on x");
         randomX = canvas.width - (targetSizes[level]);
@@ -43,6 +45,13 @@ function createLevels(startingWidth) {
     return array;
 }
 
+function timer() {
+  timeLimit -= 1;
+  $('#timer').text("Time Remaining: "+timeLimit);
+  if (timeLimit <= 0) {
+    endGame();
+  }
+}
 
 
 
@@ -57,26 +66,33 @@ function targetClicked(e) {
         endGame();
     } else {
         score += scoreTarget(r);
-        scoreboard.textContent = "Your Score is " + score;
+        scoreboard.text("Your Score is " + score);
+        level++;
+        drawTarget();
     }
-    level++;
-    drawTarget();
 }
 
 function scoreTarget(distance) {
     var value = 0;
     if (distance === 0) {
         value = targetValue * 2;
-        info.textContent = "BULLSEYE!! DOUBLE POINTS";
+        info.text("BULLSEYE!! DOUBLE POINTS");
     } else {
         value = targetValue - Math.round(((distance / targetRange) * 100), 1);
-        info.textContent = "You scored " + value;
+        info.text("You scored " + value);
     }
     return value;
 }
 
 function endGame() {
-//test
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font="30px Arial";
+    ctx.textAlign="center";
+    ctx.fillText("GAME OVER!",350,250);
+    ctx.fillText("You hit " + level + " targets",350,350);
+    ctx.fillText("Your final score is " + score,350,400);
+    clearInterval(interval);
+    $('#continue').show();
 }
 
 drawTarget();
