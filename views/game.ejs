@@ -1,9 +1,19 @@
-<div id="container">
-        <canvas id="gameboard" onclick="targetClicked(event)" width="700" height="500" style="border:1px solid #d3d3d3;">
-                Your browser does not support the canvas element. Go download Chrome you savage.
+<div class="container">
+    <div id="gameholder" class="row">
+        <canvas id="gameboard"  width="700" height="500" style="border:1px solid #d3d3d3;">
+                                Your browser does not support the canvas element. Go download Chrome you savage.
         </canvas>
-        <div id="score"></div>
-        <div id="info"></div>
-        <div id="timer"></div>
-        <button id="continue" type="button" name="button">Continue</button>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 text-center white" id="score"></div>
+        <div class="col-xs-4 text-center white" id="info"></div>
+        <div class="col-xs-4 text-center white" id="timer"></div>
+    </div>
+    <form class="span 6 offset" action="submit the score page">
+        <input type="submit" name="Submit" class="btn btn-success" value="Submit your score">
+        <input type="hidden" id="total" name="points" value="">
+        <input type="hidden" id="level" name="level" value="">
+        <input type="hidden" id="accuracy" name="accuracy" value="">
+        <input type="hidden" name="id" value="<%= id %>">
+    </form>
 </div>

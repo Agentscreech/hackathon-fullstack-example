@@ -7,7 +7,8 @@ var targetRange = 0;
 var level = 0;
 var targetValue = 100;
 var score = 0;
-var timeLimit = 60;
+var timeLimit = 30;
+var accuracy = 0;
 var scoreboard = $("#score");
 var info = $("#info");
 var interval = setInterval(timer, 1000);
@@ -21,7 +22,7 @@ function drawTarget() {
     randomY = Math.floor(Math.random() * 500);
     targetRange = targetSizes[level] / 2;
     var img = new Image();
-    img.src = "static/img/target.svg"; //might have to change this later
+    img.src = "/img/target.svg"; //might have to change this later
     if (randomX + (targetSizes[level] + 10) > canvas.width) {
         // console.log(randomX + " is too big on x");
         randomX = canvas.width - (targetSizes[level]);
@@ -77,9 +78,11 @@ function scoreTarget(distance) {
     var value = 0;
     if (distance === 0) {
         value = targetValue * 2;
+        accuracy += 100;
         info.text("BULLSEYE!! DOUBLE POINTS");
     } else {
         value = targetValue - Math.round(((distance / targetRange) * 100), 1);
+        accuracy += targetValue - Math.round(((distance / targetRange) * 100), 1);
         info.text("You scored " + value);
     }
     return value;
@@ -95,6 +98,9 @@ function endGame() {
     $('#gameboard').off("click");
     clearInterval(interval);
     $('#continue').show();
+    $('#total').val(score);
+    $('#level').val(level);
+    $('#accuracy').val(Math.round(accuracy/level),1);
 }
 
 drawTarget();
