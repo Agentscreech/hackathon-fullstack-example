@@ -1,4 +1,21 @@
-@font-face {
-  font-family: arcade;
-  src: url("/fonts/arcade.ttf");
+body{
+  background: url("../img/bg-tree.jpg") no-repeat center center fixed;
+}
+#container {
+  width: 80%;
+}
+#gameholder {
+  width: 100%;
+  text-align: center;
+}
+#gameboard {
+  display: inline;
+  background: url("../img/grass.jpg");
+}
+.form-actions {
+  margin: 0;
+  text-align: center;
+}
+.white{
+  background-color: white;
 }

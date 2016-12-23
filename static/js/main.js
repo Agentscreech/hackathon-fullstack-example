@@ -12,6 +12,7 @@ var scoreboard = $("#score");
 var info = $("#info");
 var interval = setInterval(timer, 1000);
 $('#continue').hide();
+$('#gameboard').click(targetClicked);
 
 
 function drawTarget() {
@@ -56,8 +57,8 @@ function timer() {
 
 
 function targetClicked(e) {
-    var x = e.clientX - 9;
-    var y = e.clientY - 9;
+    var x = e.offsetX;
+    var y = e.offsetY;
     var dx = Math.abs(x - (randomX + targetRange));
     var dy = Math.abs(y - (randomY + targetRange));
     var r = Math.round(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)), 1);
@@ -91,6 +92,7 @@ function endGame() {
     ctx.fillText("GAME OVER!",350,250);
     ctx.fillText("You hit " + level + " targets",350,350);
     ctx.fillText("Your final score is " + score,350,400);
+    $('#gameboard').off("click");
     clearInterval(interval);
     $('#continue').show();
 }
