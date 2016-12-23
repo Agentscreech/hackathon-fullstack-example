@@ -2,20 +2,20 @@
 
 <% scores.forEach(function(score){ %>
     <div class="row">
-        <div class="col-xs-12">
-            <p>
-            Title
-            </p>
-            <p>
-            <p>
-                <a href="/<%= score.id %>">
-                <%= score.score %> </a>
-                <a href="/<%= score.id %>">
-                <%= score.level %> </a>
-            </p>
-            <a href="/a<%= score.id %>" class="delete-link btn btn-warning">DELETE</a><a href='/edit/<%= score.id %>' class="btn btn-warning">EDIT</a>
+        <div class="col-xs-12 text-center white">
+        <p>
+            <%= score.name %>,
+            <%= score.points %>,
+            <%= score.level %>,
+            <%= score.accuracy %>
+        </p>
+            <a href="/score/<%= score.id %>" class="delete-link btn btn-warning">DELETE</a><a href='/admin-panel/edit/<%= score.id %>' class="btn btn-warning">EDIT</a>
             </p>
 
         </div>
     </div>
 <% }) %>
+
+<form action="/">
+    <input type="submit" value="Home" />
+</form>

@@ -1,0 +1,48 @@
+<div class="container">
+<h1 class="text-center">Your Score</h1>
+<div class="row">
+    <div class="col-xs-12 text-center white">
+        <p>
+             <%= playerScore.name %>:
+             <%= playerScore.points %>,
+             <%= playerScore.level %>,
+             <%= playerScore.accuracy %>
+        </p>
+    </div>
+
+</div>
+
+
+
+<h1 class="text-center">HIGH SCORES</h1>
+
+
+
+<% highscores.forEach(function(score){ %>
+    <div class="row">
+        <div class="col-xs-12 text-center white">
+            <p>
+                <%= score.name %>:
+                <%= score.points %>,
+                <%= score.level %>,
+                <%= score.accuracy %>
+        </div>
+    </div>
+<% }) %>
+<h1 class="text-center">Average Scores</h1>
+<div class="row">
+    <div class="col-xs-12 text-center white">
+        <p>
+             <%= averageScore.points %>,
+             <%= averageScore.level %>,
+             <%= averageScore.accuracy %>
+        </p>
+    </div>
+
+</div>
+
+<form action="/">
+    <input type="submit" value="Home" />
+</form>
+
+</div>

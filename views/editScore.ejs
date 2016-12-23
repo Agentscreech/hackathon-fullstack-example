@@ -1,0 +1,22 @@
+<h2 class="text-center">Edit Scores here</h2>
+
+<form class="form admin-put" action="/admin-panel/<%= score.id %>" method="put">
+    <div class="form-group">
+        <label for="name">name</label>
+            <input type="text" name="name" value="<%= score.name %>">
+    </div>
+    <div class="form-group">
+        <label for="points">points</label>
+            <input type="text" name="points" value="<%= score.points %>">
+    </div>
+    <div class="form-group">
+        <label for="level">level</label>
+            <input type="text" name="level" value="<%= score.level %>">
+    </div>
+    <div class="form-group">
+        <label for="accuracy">accuracy</label>
+            <input type="text" name="accuracy" value="<%= score.accuracy %>">
+    </div>
+
+    <input type="submit" name="Submit" class="btn btn-success" value="Update">
+</form>

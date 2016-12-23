@@ -23,13 +23,12 @@ app.get("/", function(req,res) {
 
 //submit new player
 app.post('/archery-game/new', function(req,res){
-    // console.log(req.body);
     db.score.create(req.body).then(function(score){
         res.redirect('/archery-game?id='+score.id);
     });
 });
 
-//submit player scores
+//run game
 app.get ('/archery-game', function(req, res){
     var id = req.query.id;
     db.score.findAll().then(function(scores){
@@ -37,39 +36,91 @@ app.get ('/archery-game', function(req, res){
     });
 });
 
+//submit player scores
+app.put('/archery-game/score', function(req, res) {
+  var points = req.body.points;
+  var level = req.body.level;
+  var accuracy = req.body.accuracy;
+  var id = req.body.id;
+      db.score.update(
+        {points: points,level: level,accuracy: accuracy}, {where: {id: id}
+      }).then(function(user) {
+      });
+
+  res.send({message: 'success'});
+});
+
+
 //show player results
 app.get('/archery-game/scoreboard', function(req,res){
     db.score.findAll().then(function(scores){
-      console.log("returned all scores");
-      res.render('/scoreboard', {scores: scores});
-    // res.render('scores/show');
+      var playerScore = scores[scores.length-1];
+      var highscores = scores;
+      var averageScore = getAveScore(scores);
+      highscores.sort(function(a,b){
+        return -(a.points - b.points);
+      });
+      res.render('scoreboard', {playerScore: playerScore,highscores: highscores,averageScore: averageScore});
     });
 });
 
 
 //admin panel
-app.get('/scores', function(req,res){
+app.get('/admin-panel', function(req,res){
     db.score.findAll().then(function(scores){
-      console.log("returned all scores");
-      res.render('scores/show', {scores: scores});
-    // res.render('scores/show');
+      res.render('admin', {scores: scores});
     });
+});
+
+//admin edit display
+app.get('/admin-panel/edit/:id', function(req, res){
+    db.score.findById(req.params.id).then(function(score){
+          res.render('editScore', {score: score});
+      });
+});
+
+//admin submit edit /admin-panel/edit/<%= score.id %>
+app.put('/admin-panel/:id', function(req, res) {
+  var points = req.body.points;
+  var level = req.body.level;
+  var accuracy = req.body.accuracy;
+  var name = req.body.name;
+  var id = req.params.id;
+      db.score.update(
+        {points: points,level: level,accuracy: accuracy}, {where: {id: id}
+      }).then(function(user) {
+      });
+
+  res.send({message: 'success'});
 });
 
 //delete item
 app.delete('/score/:id', function(req, res){
-    console.log("trying to delete");
     var scoreToDelete = req.params.id;
-    console.log("this "+ scoreToDelete);
     db.score.destroy({
           where: { id: scoreToDelete }
     }).then(function(scoreToDelete) {
-        console.log("trying to redirect to /scores" );
         res.send();
       // do something when done deleting
     });
 });
 
+
+function getAveScore(scores){
+  sumPoints = 0;
+  sumLevel = 0;
+  sumAccuracy = 0;
+  var averages = {points:0,level:0,accuracy:0};
+  for (i = 0; i<scores.length; i++ ){
+    sumPoints += scores[i].points;
+    sumLevel += scores[i].level;
+    sumAccuracy += scores[i].accuracy;
+  }
+  averages.points = sumPoints/scores.length;
+  averages.level = sumLevel/scores.length;
+  averages.accuracy = sumAccuracy/scores.length;
+  return averages;
+}
 
 
 
